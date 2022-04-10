@@ -1,1 +1,194 @@
 #!yasl_linux
+
+{
+    "Wrong image : the image must be square.\n"
+    print
+    1
+    exit
+} print_wrong_image
+
+{
+    1:4            // stack 4, pour la boucle
+    1:3                // on commence a 1 dans la stack 3
+    4:%@ (
+        3:=:3        // on duplique le nombre dans 3
+        3:%*:3        // on le multiplie par lui meme
+        1:=:3        // on va chercher le nombre de pixels on le met dans 3
+        3:%==:3  3:? (3:(!!!):3 4:! 0:4) : (
+            3:%>:3 3:? (3:print_wrong_image:3) : (3:(!!!):3 1:3 3:+:3)
+        )
+    )
+    4:(!)            // La stack 4 est maintenant vide
+    3:=:2 3:!        // La stack 2 contient la taille du carre. La stack 3 est maintenant vide.
+} get_square_size
+
+{
+	4:9
+	9:/:9
+	9:=:1
+	get_square_size
+	"Image received, nb pixels : ":1
+	1:print
+	1:print
+	"\nFound square : ":1
+	1:print
+	2:=:2
+	2:print
+	"\n":1
+	1:print
+}count_car_line
+
+{
+1:=:5
+1:!
+(4:5 5:%:5 0:5 5:!=:5) 5:? ("Image is wrong\n":7 7:print 1:7 7:exit)
+1:#:1
+4:1
+
+1:/:1
+1:#(
+	4:7
+	7:#(1:=:2 1:!) 
+	4 :7
+	7:#(2:=:3 2:!) 
+	3 :7
+	7:#(3:+:3) 
+	3:=:0 
+	3:!)
+}join_4
+
+{
+0:][:1
+join_4
+}separe_caract
+
+{
+	(7:#:7 0:7 7:!=:7) 7:? (7:#:7 7:#!)
+	6:%][:7
+	7:!
+	63:4
+	3:=:7
+	7:!=:7
+	7:@(1:4
+		4:-:4
+		3:=:7
+		(7:#:7 1:7 7:==:7) 7:? ("Image have wrong caractere\n":7 7:print 7:1 7:exit)
+		7:!=:7
+		)
+	3:!
+}convert_decimal
+
+{
+    3:2
+    2:%@(
+        3:=:3
+        255:3
+        3:&:8
+        8:3
+        3:>>:3
+        //8:print "\n":0 0:print
+
+        //loop ne pas toucher
+        1:2
+        2:-:2
+        )
+        2:! //clean the loop variable
+} big_int_to_rgb
+
+{
+	3:8
+	8:#(6:4			
+		4:<<:4
+		4:|:4
+	)		//shifftage du nombre
+	3:8
+	8:#(
+		255:4
+		4:%&:4
+		4:#:4
+		4:(!^):4
+		4:(!):4
+	)
+	4:!
+	3:8
+	8:#(
+		6:4
+		4:*:4
+		256:4
+		4:/:4
+		4:#:4
+		4:(!^):4
+	)
+	36:4
+	4:*:4
+	4:#:4
+	4:(!^):4
+
+	6:4
+	4:*:4
+	4:#:4
+	4:(!^):4
+
+	4:#:4
+	4:(!^):4
+	4:(+ +):4
+	16:4
+	4:+:4
+	//4:=:3
+} big_int
+
+
+{
+	(7:#:7 0:7 7:!=:7) 7:? (7:#:7 7:#!)
+	6:%][:7
+	7:!
+
+	0:=:3
+	0:!
+	3:][:3
+	3:!
+	
+	4:8
+	8:#convert_decimal
+	big_int
+	"\e[48;5;":8
+	4:=:8 
+	"m ":8
+	8:(+ +):8
+	8:print
+	4:!
+} print_color
+
+//read est cap 65535
+
+#!
+1:2
+read
+0:=:1
+65535
+0:==:2
+2:@(read 0:=:1 65535:0 0:==:2 0:+:0 1:+:1)
+1:=:9
+1:!
+2:!
+
+count_car_line
+
+separe_caract
+//0 a chaque pixel separer dans une srting recuperable dans l'ordre d'affichage
+//1 le nombre de pixel par ligne
+//2 a le nombre de pixel afficher sur la ligne courante
+//3 est le lieu de travail pour afficher le pixel
+//4 deuxieme lieu de travail pour jafficher le pixel
+//5 sack pour faire les comparaison
+//6 stock alphabet 64
+//7 utilisation alphabet 64
+//8 pas encore utiliser
+//9 a le nombre de caractere total sa peut servir mais je sais pas pourquoi
+
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/":6
+
+#
+#!
+"kIwL"
+print_color

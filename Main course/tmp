@@ -1,0 +1,59 @@
+#!yasl_linux
+
+//read est cap 65535
+1:2
+read
+0:=:1
+65535
+==:2
+2:@(read 0:=:1 65535:0 0:==:2 0:+:0 1:+:1)
+1:=:0
+1:!
+2:!
+
+{
+1:=:5
+1:!
+(4:5 5:%:5 0:5 5:!=:5) 5:? ("Image is wrong\n":7 7:print 7:1 7:exit)
+1:#:1
+4:1
+1:/:1
+1:#(
+	4:7
+	7:#(1:=:2 1:!) 
+	4 :7
+	7:#(2:=:3 2:!) 
+	3 :7
+	7:#(3:+:3) 
+	3:=:0 
+	3:!)
+}join_4
+
+{
+0:][:1
+join_4
+}separe_caract
+
+separe_caract
+
+{
+//Si mauvaise racine carre alors faire un exit 
+
+}count_car_line
+
+count_car_line
+
+//0 a chaque pixel separer dans une srting recuperable dans l'ordre d'affichage
+//1 le nombre de pixel par ligne
+//2 a le nombre de pixel afficher sur la ligne courante
+//3 est le lieu de travail pour afficher le pixel
+//5 sack pour faire les comparaison
+//6 stock alphabet
+//7 utilisation alphabet
+
+{
+	0:=:3
+	0:!
+	3:][:3
+	3:!
+}print_color
