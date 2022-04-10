@@ -19,14 +19,19 @@
         )
     )
     4:(!)            // La stack 4 est maintenant vide
-    3:=:2 3:!        // La stack 2 contient la taille du carre. La stack 3 est maintenant vide.
+    3:=:2
+	3:!        // La stack 2 contient la taille du carre. La stack 3 est maintenant vide.
 } get_square_size
 
 {
-	4:9
-	9:/:9
-	9:=:1
+	4:9     
+	9:/:9	
+	9:=:1 //nombre de pixel on met dans 1
+	9:!	  // La stack 9 est vide
 	get_square_size
+} count_pixels
+
+{
 	"Image received, nb pixels : ":1
 	1:print
 	1:print
@@ -36,31 +41,28 @@
 	2:print
 	"\n":1
 	1:print
-}count_car_line
+	// Ici 1 est vide
+} display_info
 
 {
-1:=:5
-1:!
-(4:5 5:%:5 0:5 5:!=:5) 5:? ("Image is wrong\n":7 7:print 1:7 7:exit)
-1:#:1
-4:1
+	0:][:1 				// Met tout les chars split dans 1
 
-1:/:1
-1:#(
-	4:7
-	7:#(1:=:2 1:!) 
-	4 :7
-	7:#(2:=:3 2:!) 
-	3 :7
-	7:#(3:+:3) 
-	3:=:0 
-	3:!)
-}join_4
+	4:1
+	1:/:1				// On calcule le nombres de pixels
+	1:#(
+							// inversage de l'ordre
+		4:7
+		7:#(1:=:2 1:!)
+		4 :7
+		7:#(2:=:3 2:!)
 
-{
-0:][:1
-join_4
-}separe_caract
+		3 :7
+		7:#(3:+:3) 
+		3:=:0 
+		3:!
+	)
+	// La stack 3 et 7 sont vides
+} split_4
 
 {
 	(7:#:7 0:7 7:!=:7) 7:? (7:#:7 7:#!)
@@ -101,80 +103,72 @@ join_4
 		4:<<:4
 		4:|:4
 	)		//shifftage du nombre
-	3:8
-	8:#(
-		255:4
-		4:%&:4
-		4:#:4
-		4:(!^):4
-		4:(!):4
-	)
-	4:!
-	3:8
-	8:#(
-		6:4
-		4:*:4
-		256:4
-		4:/:4
-		4:#:4
-		4:(!^):4
-	)
-	36:4
-	4:*:4
-	4:#:4
-	4:(!^):4
 
-	6:4
-	4:*:4
-	4:#:4
-	4:(!^):4
-
-	4:#:4
-	4:(!^):4
-	4:(+ +):4
-	16:4
-	4:+:4
-	//4:=:3
 } big_int
 
+{
+    16:8
+    8:+:8
+    8:+:8
+    8:+:4
+}    shorten_to_colour
 
 {
-	(7:#:7 0:7 7:!=:7) 7:? (7:#:7 7:#!)
-	6:%][:7
-	7:!
+    6:3
+    3:*:3
+    256:3
+    3:/:8
+} shorten_rgb
 
-	0:=:3
-	0:!
-	3:][:3
-	3:!
+{
+    3:2
+    2:%@(
+        3:=:3
+        255:3
+        3:&:3
+        shorten_rgb
+        2:(= 1 ==):2 ? 8:(36 *):8
+        2:(= 2 ==):2 ? 8:(6 *):8
+        8:3
+        3:>>:3
+
+        //loop do not modify
+        1:2
+        2:-:2
+    )
+    2:! //clean the loop variable
+} big_int_to_colour
+
+{
+	(7:#:7 7:#:7 7:#!)		// Vider la stack 7
+	6:%][:7					// On split la base dans la stack 7
+	7:!						// On supprime le nombre de caractere
+
+	0:=:3					// Duplique la string qu'il va modifie dans la stack 3
+	0:!						// Supprime la chaine dans la stack 0
+	3:][:3					// Explose la string en caractere dans la stack 3
+	3:!						// Supprime la taille dans la stack 3
 	
-	4:8
-	8:#convert_decimal
-	big_int
+	4:8						// On met 4 dans la stack 8
+	8:#convert_decimal		// Dans 8 
+	big_int					//return in pile_4, le big int est bon.
+	4:=:3 
+	4:!
+
+	big_int_to_colour		//returns the final colour unshortened
+	//3:#:3
+	//3:#print
+	//1
+	//exit
+	shorten_to_colour		//return in pile_8
 	"\e[48;5;":8
-	4:=:8 
+	4:=:8
 	"m ":8
 	8:(+ +):8
 	8:print
 	4:!
 } print_color
 
-//read est cap 65535
-
-#!
-1:2
-read
-0:=:1
-65535
-0:==:2
-2:@(read 0:=:1 65535:0 0:==:2 0:+:0 1:+:1)
-1:=:9
-1:!
-2:!
-
-count_car_line
-
-separe_caract
 //0 a chaque pixel separer dans une srting recuperable dans l'ordre d'affichage
 //1 le nombre de pixel par ligne
 //2 a le nombre de pixel afficher sur la ligne courante
@@ -186,9 +180,32 @@ separe_caract
 //8 pas encore utiliser
 //9 a le nombre de caractere total sa peut servir mais je sais pas pourquoi
 
+//                ****** MAIN ******* 
+
+#!		// On vire les arguments
+
 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/":6
 
-#
-#!
-"kIwL"
-print_color
+read
+0:=:1
+65535					// Valeur maximum de read
+0:==:2
+2:@(read 0:=:1 65535:0 0:==:2 0:+:0 1:+:1)
+1:=:9  					// On met le nombre de caractere dans 9
+1:!						// On enleve le nombre de char dans la stack 1	
+2:!						// On enleve deux.
+
+count_pixels
+display_info
+
+split_4					
+						// Stack 0 : toute les listes de pixels
+						// Stack 2 : taille du carre.
+						// Stack 6 : il y a la base
+2:=:2
+2:#(	// On itere dans tout les listes
+	2:=:2
+	2:#print_color
+	"\e[0m\n":9
+	9:print
+)
