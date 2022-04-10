@@ -187,13 +187,38 @@
 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/":6
 
 read
+(0 %==) ? ("Empty file or bad file\n":7 7:print 1:7 7:exit)
+!
 0:=:1
 65535					// Valeur maximum de read
 0:==:2
 2:@(read 0:=:1 65535:0 0:==:2 0:+:0 1:+:1)
+					// On enleve deux.
+
+
+0:%][:9
+
+9:#(
+	(7:#:7 7:#:7 7:#!)
+	6:%][:7
+	7:!
+	9:=:7
+	7:!=:7
+	7:@(
+		9:=:7
+		(7:#:7 1:7 7:==:7) 7:? ("Argument have wrong character\n":7 7:print 1:7 7:exit)
+		7:!=:7
+		)
+		9:!
+	)
+
+(7:#:7 7:#:7 7:#!)
+(9:#:9 9:#:9 9:#!)
+
+
 1:=:9  					// On met le nombre de caractere dans 9
 1:!						// On enleve le nombre de char dans la stack 1	
-2:!						// On enleve deux.
+2:!	
 
 count_pixels
 display_info

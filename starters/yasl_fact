@@ -1,0 +1,73 @@
+#!yasl_linux
+
+!!
+#
+(1 !=) ? ("Bad number of argument\n" print 1 exit)
+
+
+"0"
+(%==) ? ( "1\n" print 1 exit)
+!
+
+0:%][:9
+"0123456789":6
+
+
+
+9:#(
+(7:#:7 7:#:7 7:#!)
+6:%][:7
+7:!
+9:=:7
+7:!=:7
+7:@(
+	9:=:7
+	(7:#:7 1:7 7:==:7) 7:? ("Argument have wrong character\n":7 7:print 1:7 7:exit)
+	7:!=:7
+	)
+	9:!
+)
+
+
+
+(5:#:5 5:#:5 5:#!)
+0:=:5
+0:5
+5:+:5
+(1:5 5:<:5 ) 5:? ("The agument need to be stricly possitve integer\n" print 1 exit)
+
+0:=:5
+0:5
+5:+:5
+"":5
+5:+:5
+5:][:5
+5:#:5
+(3:5 5:>) ? ("Bad argument or the result overflow\n" print 1 exit)
+
+0
++
+
+(0 %<) ? ("The argument need to be  possitve number or zero\n" print 1 exit)
+!
+(20 %>) ? ("Bad argument or the result overflow\n" print 1 exit)
+!
+
+1:1
+1:2
+1:3
+
+{0:=:3
+2:=:3
+3:>=:3}need_to_continue
+
+3:@(
+	2:=:1
+	1:*:1
+	1:2
+	2:+:2
+	need_to_continue
+	)
+1:print
+"\n" 
+print

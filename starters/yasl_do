@@ -1,0 +1,28 @@
+#!yasl_linux
+
+4 != ? (exit) 
+!								
+eval:1
+=:2 0:!
+eval:1
+2:=:1 2:!
+
+{
+	1:!
+	1:eval
+	print
+} operation_loop
+
+//  --> else do to first to the last params
+
+{
+    2#(1:!)
+    1:%:1
+    1:print  
+} modulo_loop
+
+//  --> in case of modulo operator do action from last to first
+
+"%":1 1:%==? (modulo_loop "\n" print) : (operation_loop "\n" print)
+
+//  --> if arg0 is modulo then do modulo loop else do operation loop

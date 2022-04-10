@@ -1,0 +1,3 @@
+#!yasl_linux
+
+1 > ? (! # #(print "\n" print)) : (exit)

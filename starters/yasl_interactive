@@ -1,0 +1,11 @@
+#!yasl_linux
+
+#
+#!
+1
+0:@(
+	read
+	0
+	(==) ? ("\n" print 1 exit) : (eval)
+	1
+)
