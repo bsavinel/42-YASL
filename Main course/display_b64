@@ -163,7 +163,7 @@
 	shorten_to_colour		//return in pile_8
 	"\e[48;5;":8
 	4:=:8
-	"m ":8
+	"m  ":8
 	8:(+ +):8
 	8:print
 	4:!
