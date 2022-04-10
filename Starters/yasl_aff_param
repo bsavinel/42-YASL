@@ -1,0 +1,4 @@
+#!yasl_linux
+
+!!
+(# 0 ==) ? (1 exit) : (# #(print "\n" print))

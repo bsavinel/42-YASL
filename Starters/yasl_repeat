@@ -1,0 +1,28 @@
+#!yasl_linux
+
+{
+	(# 0 ==) ?
+	(0 exit) :
+	(1:=:2 
+	2:%@(
+		0:=:3
+		3:print
+		0:"1"
+		0:eval:2
+		2:-:2
+		)
+	0:!
+	1:1
+	1:+:1
+	"\n"
+	0:print
+	repeat)
+}repeat
+
+!!
+(# 2 < ) ? ("Bad argument\n" print 1 exit)
+0:=:0
+(0 <=) ? ("Bad argument\n" print 1 exit)
+0:=:1
+!
+repeat

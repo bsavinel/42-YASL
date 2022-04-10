@@ -1,0 +1,20 @@
+#!yasl_linux
+
+4 != ? (exit) 
+!!
+" "
++
+3
+^
++
+" "
++
+2
+^
++
+" "
++
+eval
+print
+"\n"
+print
